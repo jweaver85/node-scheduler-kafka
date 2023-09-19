@@ -5,8 +5,6 @@ services:
     environment:
       BROKER_URL: kafka:9092
       TOPICS: "scheduled1,scheduled2"
-#    volumes:
-#      - ./:/app/
 
   producer:
     build: .
@@ -14,21 +12,16 @@ services:
     environment:
       BROKER_URL: kafka:9092
       TOPICS: "produced1"
-  #    volumes:
-  #      - ./:/app/
 
   consumer:
     deploy:
       replicas: 1
     build: .
-    #    command: air --build.cmd "go build -o bin/consumer src/consumer/main.go" --build.bin "./bin/consumer"
     command: node dist/consumer.js
     environment:
       BROKER_URL: kafka:9092
       TOPICS: "scheduled1,scheduled2,produced1"
       GROUP_ID: "Consumer-A"
-#    volumes:
-#      - ./src/:/app/src/
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest

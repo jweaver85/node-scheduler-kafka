@@ -14,10 +14,10 @@ consumer.connect();
 consumer.on('ready', () => {
     console.log("subscribing to topics: ", process.env.TOPICS)
     consumer.subscribe(process.env.TOPICS.split(','));
+    // start consuming messages
+    consumer.consume();
 })
-consumer.on("event.event", (message) => {
-    console.log(`(event.event) Received message: ${message.value?.toString()}`);
-})
+
 // Handle incoming messages
 consumer.on('data', (message) => {
     console.log(`(data) Received message: ${message.value?.toString()}`);
